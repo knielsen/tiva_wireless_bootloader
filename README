@@ -1,0 +1,16 @@
+Simple bootloader to allow flashing over nRF24L01+ wireless.
+
+This is especially intended to allow easy development of POV
+applications, where it is rather inconvenient to have to stop the
+motor, connect debug cables, flash, disconnect, start up again in
+every compile iteration.
+
+The bootloader sits at address 0, waits a short while for bootloader
+trafic on wireless, and if so downloads the image and flashes
+it. After it moves the interrupt vector to where the real application
+sits and starts it like a normal reset.
+
+Thus, the target application must be compiled at the proper offset,
+rather than address 0.
+
+License: GPL, V2 or later.
