@@ -15,7 +15,7 @@ FP_LDFLAGS= -L$(GCCDIR)/arm-none-eabi/lib/thumb/cortex-m4 -lm -L$(GCCDIR)/lib/gc
 
 ARCH_CFLAGS=-mthumb -mcpu=cortex-m4 -ffunction-sections -fdata-sections -DTARGET_IS_BLIZZARD_RA1
 INC=-I$(SWDIR) -DPART_LM4F120H5QR
-CFLAGS=-Dgcc -g -O3  -std=c99 -Wall -pedantic $(ARCH_CFLAGS) $(INC)
+CFLAGS=-Dgcc -g -Os  -std=c99 -Wall -pedantic $(ARCH_CFLAGS) $(INC)
 LDFLAGS=--entry ResetISR --gc-sections
 
 OBJS = $(TARGET).o
@@ -45,7 +45,7 @@ clean:
 	rm -f $(OBJS) $(TARGET).elf $(TARGET).bin $(STARTUP).o
 
 tty:
-	stty -F/dev/ttyACM0 raw -echo -hup cs8 -parenb -cstopb 115200
+	stty -F/dev/ttyACM0 raw -echo -hup cs8 -parenb -cstopb 500000
 
 cat:
 	cat /dev/ttyACM0
