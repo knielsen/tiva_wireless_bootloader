@@ -777,6 +777,11 @@ int main()
 
   /* Now reply with a status packet so sender knows we are here. */
   serial_output_str("Got request from programmer, sending ack\r\n");
+  /*
+    For some reason this delay is needed. Else we time out waiting for the
+    TX_DS flag.
+  */
+  delay_us(100);
   nrf_send_status_reply(packet_buf, 0);
   serial_output_str("Ack send, starting to process cmds\r\n");
 
@@ -803,8 +808,8 @@ int main()
       }
 
       subcmd = packet_buf[1];
-      serial_output_str("P:");
-      println_uint32(subcmd);
+      //serial_output_str("P:");
+      //println_uint32(subcmd);
       if (subcmd >= 0 && subcmd <= 34)
       {
         /* Load flash data. */
