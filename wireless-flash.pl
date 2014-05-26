@@ -127,6 +127,8 @@ for (;;) {
     1;
   } and last;
   print STDERR ".";
+  # Exit debug mode to send the 254/255 reset packet in non-ack mode correctly.
+  send_packet(mk_packet(254, 251), 0);
   Time::HiRes::sleep(0.4);
   ++$tries;
   die "No response from bootloader, giving up\n"
