@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use Time::HiRes;
-use IO::Stty;
 
 my $tty;
 my $binfile;
@@ -13,10 +12,10 @@ if (@ARGV == 3 && $ARGV[0] eq '-t') {
   $tty = $ARGV[1];
   $binfile = $ARGV[2];
 } elsif (@ARGV == 1) {
-  $tty = '/dev/ttyACM0';
+  $tty = '/dev/pov_sender';
   $binfile = $ARGV[0];
 } else {
-  print STDERR "Usage: $0 [-f /dev/ttyACMx] file-to-flash.bin\n";
+  print STDERR "Usage: $0 [-t /dev/ttyACMx] file-to-flash.bin\n";
   exit 1;
 }
 
@@ -25,6 +24,7 @@ open BINFILE, "<", $binfile
 binmode BINFILE;
 
 
+system('stty', "-F$tty", qw(raw -echo -hup cs8 -parenb -cstopb 500000));
 open TTY, "+<", $tty
     or die "Failed to open programmer on $tty: $!\n";
 
@@ -33,7 +33,6 @@ $| = 1;
 select STDOUT;
 $| = 1;
 binmode TTY;
-IO::Stty::stty(\*TTY, 'raw');
 
 
 sub mk_packet {
