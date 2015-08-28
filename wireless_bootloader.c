@@ -359,7 +359,7 @@ nrf_read_reg(uint8_t reg, uint8_t *status_ptr,
              uint32_t ssi_base, uint32_t csn_base, uint32_t csn_pin)
 {
   uint8_t recvbuf[2];
-  nrf_read_reg_n(reg, recvbuf, 2, ssi_base, csn_base, csn_pin);
+  nrf_read_reg_n(reg, recvbuf, 1, ssi_base, csn_base, csn_pin);
   if (status_ptr)
     *status_ptr = recvbuf[0];
   return recvbuf[1];
